@@ -139,6 +139,9 @@ module.exports = class NoiseState extends SymmetricState {
   }
 
   recv (buf) {
+      if(!this.handshake.length){
+          return
+      }
     const r = new Reader(buf)
 
     for (const pattern of this.handshake.shift()) {
@@ -179,6 +182,9 @@ module.exports = class NoiseState extends SymmetricState {
   }
 
   send (payload = b4a.alloc(0)) {
+      if(!this.handshake.length){
+          return
+      }
     const w = new Writer()
 
     for (const pattern of this.handshake.shift()) {
